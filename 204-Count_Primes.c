@@ -24,22 +24,6 @@ static bool is_prime(int n)
         if (n <= 1)
                 return false;
 
-#ifdef ARRAY
-        for (i = 0; i < prime_size && head[i] <= half; i++) {
-                if (!(n % head[i]))
-                        return false;
-        }
-#elif LINKED_LIST
-        struct prime *tmp = head;
-
-        while (tmp && tmp->value <= half) {
-                if (!(n % tmp->value))
-                        return false;
-
-                tmp = tmp->next;
-        }
-#endif
-
         return true;
 }
 

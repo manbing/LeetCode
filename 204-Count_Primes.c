@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <limits.h>
 
 #ifdef ARRAY
 static int *head = NULL;
 static int prime_size = 0;
-#elif LINKING_LIST
+#elif LINKED_LIST
 struct prime {
         int value;
         struct prime *next;
@@ -28,7 +29,7 @@ static bool is_prime(int n)
                 if (!(n % head[i]))
                         return false;
         }
-#elif LINKING_LIST
+#elif LINKED_LIST
         struct prime *tmp = head;
 
         while (tmp && tmp->value <= half) {
@@ -45,9 +46,9 @@ static bool is_prime(int n)
 static void stash(int p)
 {
 #ifdef ARRAY
-        head = (int *)realloc(head, ++prime_size * sizeof(int));
+        ++prime_size;
         head[prime_size - 1] = p;
-#elif LINKING_LIST
+#elif LINKED_LIST
         struct prime *tmp = (struct prime *)calloc(1, sizeof(struct prime));
         tmp->next = NULL;
         tmp->value = p;
@@ -79,6 +80,9 @@ int countPrimes(int n)
 int main(void)
 {
         int input = 499979;
+#ifdef ARRAY
+        head = (int *)realloc(head, INT_MAX * sizeof(int));
+#endif
         printf("%d ->  %d\n", input, countPrimes(input));
 
         return 0;
